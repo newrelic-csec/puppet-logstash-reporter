@@ -36,14 +36,24 @@
 #
 class logstash_reporter (
   $logstash_host  = '127.0.0.1',
-  $logstash_port  = 5999,
-  $config_file  = '/etc/puppet/logstash.yaml',
+  $logstash_port  = 5959, #setting to 5959 to be consistent with example in README
 ){
+
+  if $pe_version != "" {
+    $config_file  = '/etc/puppetlabs/puppet/logstash.yaml'
+    $owner = 'pe-puppet'
+    $group = 'pe-puppet'
+  }
+  elsif {
+    $config_file = '/etc/puppet/logstash.yaml'
+    $owner = 'puppet'
+    $group = 'puppet'
+  }
 
   file { $config_file:
     ensure  => file,
-    owner   => 'puppet',
-    group   => 'puppet',
+    owner   => $owner,
+    group   => $group,
     mode    => '0444',
     content => template('logstash_reporter/logstash.yaml.erb'),
   }
