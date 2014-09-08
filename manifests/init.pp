@@ -44,7 +44,7 @@ class logstash_reporter (
     $owner = 'pe-puppet'
     $group = 'pe-puppet'
   }
-  elsif {
+  else {
     $config_file = '/etc/puppet/logstash.yaml'
     $owner = 'puppet'
     $group = 'puppet'
